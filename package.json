@@ -21,6 +21,7 @@
     "classnames": "^2.3.2",
     "ml-matrix": "^6.10.2",
     "react": "^18.2.0",
+    "react-cookie": "^4.1.1",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "^2.1.3",

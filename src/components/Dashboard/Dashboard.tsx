@@ -1,6 +1,7 @@
 import React from "react";
 
 import UserList from "./UserList";
+import ItemList from "./ItemList";
 
 const Dashboard = () => {
   return (
@@ -8,6 +9,7 @@ const Dashboard = () => {
       <h1>Dashboard</h1>
       <p>this is dashboard</p>
       <UserList />
+      <ItemList />
     </>
   );
 };

@@ -1,6 +1,8 @@
 import React from "react";
 import axios from "axios";
 
+import config from "../../config/config.json";
+
 interface State {
   users:
     | {
@@ -13,7 +15,7 @@ interface State {
 }
 
 interface User {
-  email: String;
+  email: string;
   id: number;
   is_active: boolean;
   items: number[];
@@ -28,9 +30,9 @@ class App extends React.Component<{}, State> {
 
   componentDidMount = () => {
     //APIからデータ取得
-    const url: string = "http://localhost/flowl-api/users/";
+    const apiUrl: string = config.API_URL + "users";
     axios
-      .get(url)
+      .get(apiUrl)
       .then((res) => res.data)
       .then((data) => {
         this.setState({
@@ -66,6 +68,7 @@ const UserList = () => {
   return (
     <>
       <h1>UserList</h1>
+      <p>this is user list</p>
       <App />
     </>
   );

@@ -1,14 +1,15 @@
 import React, { SyntheticEvent, useState } from "react";
-
 import axios from "axios";
+axios.defaults.withCredentials = true;
+import { useCookies } from "react-cookie";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [resultcode, setResultcode] = useState(0);
-  const [token, setToken] = useState("");
+  const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
 
-  const submit = async (e: SyntheticEvent) => {
+  const handlerLogin = async (e: SyntheticEvent) => {
     e.preventDefault();
 
     interface RequestBody {
@@ -32,16 +33,21 @@ const Login = () => {
       .then((res) => {
         setResultcode(res.status);
         if (res.status === 200) {
-          setToken(res.data.access_token);
+          const access_token: string = res.data.access_token;
+          setCookie("access_token", access_token);
         }
       })
       .catch((e) => console.log(e));
   };
 
+  const handlerLogout = async () => {
+    removeCookie("access_token");
+  };
+
   return (
     <>
       <h1>Sign in</h1>
-      <form onSubmit={submit}>
+      <form onSubmit={handlerLogin}>
         <ul>
           <li>
             <label>username</label>
@@ -65,11 +71,12 @@ const Login = () => {
         <button type="submit">Sign in</button>
       </form>
 
-      <h2>Response</h2>
+      <button onClick={handlerLogout}>Sign Out</button>
 
+      <h2>Response</h2>
       <ul>
         <li>{resultcode !== 0 && <>Code:{resultcode}</>}</li>
-        <li>{resultcode !== 0 && <p>token : {token}</p>}</li>
+        <li>{resultcode !== 0 && <p>token : {cookies["access_token"]}</p>}</li>
       </ul>
     </>
   );
