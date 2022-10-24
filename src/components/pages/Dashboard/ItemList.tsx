@@ -1,11 +1,11 @@
 import React from "react";
 import axios from "axios";
 
-import config from "../../config/config.json";
+import config from "../../../config/config.json";
 
 const apiUrl: string = config.API_URL;
 
-const ItemList = () => {
+export const ItemList = () => {
   return (
     <>
       <h1>ItemList</h1>
@@ -13,5 +13,3 @@ const ItemList = () => {
     </>
   );
 };
-
-export default ItemList;

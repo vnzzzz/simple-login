@@ -1,9 +1,9 @@
 import React from "react";
 
-import UserList from "./UserList";
-import ItemList from "./ItemList";
+import { UserList } from "./UserList";
+import { ItemList } from "./ItemList";
 
-const Dashboard = () => {
+export const Dashboard = () => {
   return (
     <>
       <h1>Dashboard</h1>
@@ -13,5 +13,3 @@ const Dashboard = () => {
     </>
   );
 };
-
-export default Dashboard;

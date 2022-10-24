@@ -41,5 +41,6 @@
   - [Reactでの認証時にJWTをCookieに設定する方法](https://zenn.dev/marokanatani/articles/d0777a34641d22)
   - [react-cookieでcookie管理をする。](https://zenn.dev/iroristudio/articles/0bc4729fefbc41)
   - [[React]~Admin画面5:ログイン認証とログアウトの実装 ~](https://selfnote.work/20210726/programming/react-next-admin-5/)
+  - [React:React Router v6 で 認証されていないユーザーや権限がないユーザーをリダイレクトする](https://zenn.dev/longbridge/articles/61b05d8bdb014d)
 - UI
   - [React Diagramsが最高だった件](https://blog.morifuji-is.ninja/post/2020-07-13/)

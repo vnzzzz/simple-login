@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 
-import config from "../../config/config.json";
+import config from "../../../config/config.json";
 
 interface State {
   users:
@@ -64,7 +64,7 @@ class App extends React.Component<{}, State> {
   };
 }
 
-const UserList = () => {
+export const UserList = () => {
   return (
     <>
       <h1>UserList</h1>
@@ -73,5 +73,3 @@ const UserList = () => {
     </>
   );
 };
-
-export default UserList;

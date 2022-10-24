@@ -1,13 +1,45 @@
-import React, { SyntheticEvent, useState } from "react";
+import React, { FC, SyntheticEvent, useState } from "react";
 import axios from "axios";
 axios.defaults.withCredentials = true;
 import { useCookies } from "react-cookie";
+import { useNavigate, useLocation } from "react-router-dom";
 
-const Login = () => {
+// config
+import config from "../../config/config.json";
+
+// types
+import {
+  Role,
+  UserType,
+  RoleType,
+  LocationType,
+  AuthUserContextType,
+} from "../types";
+
+// authentication
+import { useAuthUserContext } from "./AuthUser";
+
+export const Login: FC = () => {
+  //---- login ----------------------------------------------------
+  const navigate = useNavigate();
+  const location: LocationType = useLocation() as LocationType;
+  const fromPathName: string = location.state.from.pathname;
+  const authUser: AuthUserContextType = useAuthUserContext();
+
+  const signin = (role: RoleType) => {
+    const user: UserType = {
+      name: "no-name",
+      role: role,
+    };
+    authUser.signin(user, () => {
+      navigate(fromPathName, { replace: true });
+    });
+  };
+
+  //---- cookie ----------------------------------------------------
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [resultcode, setResultcode] = useState(0);
-  const [cookies, setCookie, removeCookie] = useCookies(["access_token"]);
+  const [cookies, setCookie, removeCookie] = useCookies();
 
   const handlerLogin = async (e: SyntheticEvent) => {
     e.preventDefault();
@@ -27,11 +59,11 @@ const Login = () => {
       accept: "application/json",
     };
 
-    const auth_url: string = "http://localhost/flowl-api/token";
+    const auth_url: string = config.API_URL + "token";
     axios
       .post(auth_url, requestData, { headers })
       .then((res) => {
-        setResultcode(res.status);
+        setCookie("resultCode", res.status);
         if (res.status === 200) {
           const access_token: string = res.data.access_token;
           setCookie("access_token", access_token);
@@ -41,6 +73,7 @@ const Login = () => {
   };
 
   const handlerLogout = async () => {
+    removeCookie("resultCode");
     removeCookie("access_token");
   };
 
@@ -75,11 +108,17 @@ const Login = () => {
 
       <h2>Response</h2>
       <ul>
-        <li>{resultcode !== 0 && <>Code:{resultcode}</>}</li>
-        <li>{resultcode !== 0 && <p>token : {cookies["access_token"]}</p>}</li>
+        <li>
+          {cookies["resultCode"] !== 0 && <>Code:{cookies["resultCode"]}</>}
+        </li>
+        <li>
+          {cookies["resultCode"] !== 0 && (
+            <p>token : {cookies["access_token"]}</p>
+          )}
+        </li>
       </ul>
+
+      <button onClick={() => signin(Role.Admin)}>Admin権限でログイン</button>
     </>
   );
 };
-
-export default Login;
