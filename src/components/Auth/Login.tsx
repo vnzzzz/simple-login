@@ -8,38 +8,24 @@ import { useNavigate, useLocation } from "react-router-dom";
 import config from "../../config/config.json";
 
 // types
-import {
-  Role,
-  UserType,
-  RoleType,
-  LocationType,
-  AuthUserContextType,
-} from "../types";
+import { UserType, LocationType, AuthUserContextType } from "../types";
 
 // authentication
 import { useAuthUserContext } from "./AuthUser";
 
 export const Login: FC = () => {
-  //---- login ----------------------------------------------------
+  // input username/password
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  // cookie
+  const [cookies, setCookie, removeCookie] = useCookies();
+
+  // signin
   const navigate = useNavigate();
   const location: LocationType = useLocation() as LocationType;
   const fromPathName: string = location.state.from.pathname;
   const authUser: AuthUserContextType = useAuthUserContext();
-
-  const signin = (role: RoleType) => {
-    const user: UserType = {
-      name: "no-name",
-      role: role,
-    };
-    authUser.signin(user, () => {
-      navigate(fromPathName, { replace: true });
-    });
-  };
-
-  //---- cookie ----------------------------------------------------
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [cookies, setCookie, removeCookie] = useCookies();
 
   const handlerLogin = async (e: SyntheticEvent) => {
     e.preventDefault();
@@ -67,14 +53,18 @@ export const Login: FC = () => {
         if (res.status === 200) {
           const access_token: string = res.data.access_token;
           setCookie("access_token", access_token);
+
+          // signin
+          const user: UserType = {
+            name: username,
+            role: "admin",
+          };
+          authUser.signin(user, () => {
+            navigate(fromPathName, { replace: true });
+          });
         }
       })
       .catch((e) => console.log(e));
-  };
-
-  const handlerLogout = async () => {
-    removeCookie("resultCode");
-    removeCookie("access_token");
   };
 
   return (
@@ -103,22 +93,6 @@ export const Login: FC = () => {
         </ul>
         <button type="submit">Sign in</button>
       </form>
-
-      <button onClick={handlerLogout}>Sign Out</button>
-
-      <h2>Response</h2>
-      <ul>
-        <li>
-          {cookies["resultCode"] !== 0 && <>Code:{cookies["resultCode"]}</>}
-        </li>
-        <li>
-          {cookies["resultCode"] !== 0 && (
-            <p>token : {cookies["access_token"]}</p>
-          )}
-        </li>
-      </ul>
-
-      <button onClick={() => signin(Role.Admin)}>Admin権限でログイン</button>
     </>
   );
 };
