@@ -4,11 +4,11 @@ axios.defaults.withCredentials = true;
 import { useCookies } from "react-cookie";
 import { useNavigate, useLocation } from "react-router-dom";
 
+// types
+import { UserType, LocationType, AuthUserContextType } from "../types/auth";
+
 // config
 import config from "../../config/config.json";
-
-// types
-import { UserType, LocationType, AuthUserContextType } from "../types";
 
 // authentication
 import { useAuthUserContext } from "./AuthUser";

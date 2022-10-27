@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 
-import { PrivateRoutePropsType } from "../types";
+import { PrivateRoutePropsType } from "../types/auth";
 import { useAuthUserContext } from "./AuthUser";
 import { Navigate, useLocation } from "react-router-dom";
 

@@ -1,15 +1,25 @@
 import React from "react";
-import axios from "axios";
+import { getItems } from "../../hooks/getItems";
 
-import config from "../../../config/config.json";
-
-const apiUrl: string = config.API_URL;
+import { ItemType } from "../../types/api";
 
 export const ItemList = () => {
+  const { items } = getItems();
+
+  if (items.isLoading) return <div>...loading</div>;
+
   return (
     <>
-      <h1>ItemList</h1>
-      <p>this is item list</p>
+      <h1>ItemList (authentication required)</h1>
+      {items &&
+        items.items.map((item: ItemType) => {
+          return (
+            <li key={item.id}>
+              {" "}
+              {item.id} - {item.title}
+            </li>
+          );
+        })}
     </>
   );
 };

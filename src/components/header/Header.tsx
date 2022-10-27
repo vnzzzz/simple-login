@@ -6,7 +6,7 @@ import { useCookies } from "react-cookie";
 import { Box, AppBar, Toolbar, Typography, Button } from "@mui/material";
 
 // authentication
-import { AuthUserContextType } from "../types";
+import { AuthUserContextType } from "../types/auth";
 import { useAuthUserContext } from "../Auth/AuthUser";
 
 export const Header: FC = () => {

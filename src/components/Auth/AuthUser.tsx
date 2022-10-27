@@ -1,5 +1,9 @@
 import React from "react";
-import { UserType, AuthUserContextType, AuthUserPropsType } from "../types";
+import {
+  UserType,
+  AuthUserContextType,
+  AuthUserPropsType,
+} from "../types/auth";
 
 const AuthUserContext = React.createContext<AuthUserContextType>(
   {} as AuthUserContextType
